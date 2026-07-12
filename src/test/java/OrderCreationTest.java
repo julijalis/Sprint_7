@@ -1,4 +1,6 @@
 import data.TestData;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import model.OrderModel;
 import org.junit.Test;
@@ -6,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import steps.ScooterApiSteps;
 import java.util.List;
+import static java.net.HttpURLConnection.HTTP_CREATED;
 import static org.hamcrest.Matchers.notNullValue;
 
 @RunWith(Parameterized.class)
@@ -27,6 +30,8 @@ public class OrderCreationTest extends BaseApiTest {
     }
 
     @Test
+    @DisplayName("Should create order with different colors")
+    @Description("Testing that order is created with Scooters with different colors")
     public void shouldCreateOrderWithDifferentColors() {
         OrderModel order = new OrderModel(
                 TestData.FIRST_NAME,
@@ -43,7 +48,7 @@ public class OrderCreationTest extends BaseApiTest {
         Response response = ScooterApiSteps.createOrder(order);
 
         response.then()
-                .statusCode(201)
+                .statusCode(HTTP_CREATED)
                 .body("track", notNullValue());
     }
 }
